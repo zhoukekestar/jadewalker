@@ -1,0 +1,25 @@
+{
+  "name": "jadewalker",
+  "version": "0.1.0",
+  "description": "URL mapping for jade.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhoukekestar/jadewalker.git"
+  },
+  "keywords": [
+    "jade",
+    "walker",
+    "mapping",
+    "url"
+  ],
+  "author": "zhoukekestar@163.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zhoukekestar/jadewalker/issues"
+  },
+  "homepage": "https://github.com/zhoukekestar/jadewalker#readme"
+}
