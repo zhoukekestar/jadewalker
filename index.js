@@ -30,6 +30,20 @@ function walk(dir, root) {
     })
 }
 
+// It seems doesn't work...
+// http://stackoverflow.com/questions/25623041/how-to-configure-dynamic-routes-with-express-js
+// 
+// module.exports = function(router, dir, root) {
+
+//   root = root || './';
+
+//   walk(root, dir);
+
+//   for (var i in entry) {
+//     console.log(`jadewalker : ${i} => ${entry[i]}`);
+//     router.get(entry[i], (req, res) => res.render(i, {params: req.params, query: req.query}));
+//   }
+// }
 
 module.exports = function(router, dir, root) {
 
@@ -37,8 +51,16 @@ module.exports = function(router, dir, root) {
 
   walk(root, dir);
 
+  var code = '';
+
   for (var i in entry) {
     console.log(`jadewalker : ${i} => ${entry[i]}`);
-    router.get(entry[i], (req, res) => res.render(i, {params: req.params, query: req.query}));
+    code += "this.get(" + JSON.stringify(entry[i]) + ", function(req, res) {" + 
+      "res.render('" + i + "', {params: req.params, query: req.query})" +
+    "});";
   }
+  
+  code = new Function(code);
+  code.call(router);
+  return router;
 }
