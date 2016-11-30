@@ -20,6 +20,7 @@ function walk(dir, root) {
 
         var url = getJadeURL(fullpath);
         if (url) {
+          name = name.replace(/\\/g, '/');
           entry[name] = url.split(',');
         }
 
@@ -32,7 +33,7 @@ function walk(dir, root) {
 
 // It seems doesn't work...
 // http://stackoverflow.com/questions/25623041/how-to-configure-dynamic-routes-with-express-js
-// 
+//
 // module.exports = function(router, dir, root) {
 
 //   root = root || './';
@@ -55,11 +56,11 @@ module.exports = function(router, dir, root) {
 
   for (var i in entry) {
     console.log(`jadewalker : ${i} => ${entry[i]}`);
-    code += "this.get(" + JSON.stringify(entry[i]) + ", function(req, res) {" + 
+    code += "this.get(" + JSON.stringify(entry[i]) + ", function(req, res) {" +
       "res.render('" + i + "', {params: req.params, query: req.query})" +
     "});";
   }
-  
+
   code = new Function(code);
   code.call(router);
   return router;
