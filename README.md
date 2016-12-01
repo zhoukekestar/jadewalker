@@ -1,6 +1,14 @@
 # jadewalker
 URL mapping for jade.
 
+# Usage
+```js
+require('jadewalker')(router , dir);
+```
+
+# Disable Log
+Set `process.env.JADEWALKER = false` will disable log.
+
 # Demo
 * app.js
 ```js

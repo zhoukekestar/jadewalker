@@ -1,6 +1,7 @@
 var fs        = require('fs')
   , path      = require('path')
-  , entry     = {};
+  , entry     = {}
+  , JADEWALKER= process.env.JADEWALKER === undefined ? true : false;
 
 var getJadeURL = function(path) {
   var content = fs.readFileSync(path) + '';
@@ -55,7 +56,9 @@ module.exports = function(router, dir, root) {
   var code = '';
 
   for (var i in entry) {
-    console.log(`jadewalker : ${i} => ${entry[i]}`);
+
+    JADEWALKER && console.log(`jadewalker : ${entry[i]} => ${i}`);
+
     code += "this.get(" + JSON.stringify(entry[i]) + ", function(req, res) {" +
       "res.render('" + i + "', {params: req.params, query: req.query})" +
     "});";
