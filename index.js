@@ -10,14 +10,18 @@ var getJadeURL = function(path) {
 }
 
 function walk(dir, root) {
-  var directory = path.join(root, dir);
-  fs.readdirSync(directory)
-    .forEach(function (file) {
-      var fullpath = path.join(directory, file)
-      var stat = fs.statSync(fullpath)
 
-      if (stat.isFile() && path.extname(fullpath) === '.jade') {
-        var name = path.join( dir, path.basename(file, '.jade'));
+  var directory = path.join(root, dir);
+
+  fs.readdirSync(directory).forEach(function (file) {
+
+      var fullpath = path.join(directory, file)
+        , stat = fs.statSync(fullpath)
+        , extname = path.extname(fullpath)
+
+      if (stat.isFile() && (extname === '.jade' || extname === '.pug')) {
+
+        var name = path.join( dir, path.basename(file, extname));
 
         var url = getJadeURL(fullpath);
         if (url) {

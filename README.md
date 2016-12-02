@@ -1,5 +1,5 @@
 # jadewalker
-URL mapping for jade.
+URL mapping for jade & pug (based on express).
 
 # Usage
 ```js
