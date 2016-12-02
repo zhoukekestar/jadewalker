@@ -21,7 +21,7 @@ function walk(dir, root) {
 
       if (stat.isFile() && (extname === '.jade' || extname === '.pug')) {
 
-        var name = path.join( dir, path.basename(file, extname));
+        var name = path.join( dir, path.basename(file));
 
         var url = getJadeURL(fullpath);
         if (url) {
