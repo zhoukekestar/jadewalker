@@ -53,6 +53,28 @@ function walk(dir, root) {
 
 module.exports = function(router, dir, root) {
 
+  var type = 'express';
+
+  // Express app
+  // var express = require('express')
+  // var app = express();
+  // require('jadewalker')(app, path.join(__dirname, 'views'));
+  if (router.engine) {
+    type = 'express'
+
+  // Koa router
+  // va app = require('koa')()
+  // var router = require('koa-router')();
+  // router = require('jadewalker')(router, path.join(__dirname, 'views'));
+  // app.use(router.routes());
+  } else if (router.middleware) {
+    type = 'koa'
+
+  // Default
+  } else {
+    type = 'express';
+  }
+
   root = root || './';
 
   walk(root, dir);
@@ -63,9 +85,19 @@ module.exports = function(router, dir, root) {
 
     JADEWALKER && console.log(`jadewalker : ${entry[i]} => ${i}`);
 
-    code += "this.get(" + JSON.stringify(entry[i]) + ", function(req, res) {" +
-      "res.render('" + i + "', {params: req.params, query: req.query})" +
-    "});";
+    if (type === 'express') {
+
+      code += "this.get(" + JSON.stringify(entry[i]) + ", function(req, res) {" +
+        "res.render('" + i + "', {params: req.params, query: req.query})" +
+      "});";
+
+    } else {
+
+      code += "this.get(" + JSON.stringify(entry[i]) + ", function*() {" +
+        "this.render('" + i + "', {params: this.params, query: this.request.query})" +
+      "});";
+    }
+
   }
 
   code = new Function(code);

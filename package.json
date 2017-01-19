@@ -1,6 +1,6 @@
 {
   "name": "jadewalker",
-  "version": "0.4.1",
+  "version": "0.5.1",
   "description": "URL mapping for jade.",
   "main": "index.js",
   "scripts": {

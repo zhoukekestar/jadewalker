@@ -6,6 +6,21 @@ URL mapping for jade & pug (based on express).
 require('jadewalker')(router , dir);
 ```
 
+# Express
+```js
+var express = require('express')
+var app = express();
+require('jadewalker')(app, path.join(__dirname, 'views'));
+```
+
+# Koa
+```js
+va app = require('koa')()
+var router = require('koa-router')();
+router = require('jadewalker')(router, path.join(__dirname, 'views'));
+app.use(router.routes());
+```
+
 # Disable Log
 Set `process.env.JADEWALKER = false` will disable log.
 
