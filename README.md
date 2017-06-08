@@ -1,59 +1,71 @@
 # jadewalker
-URL mapping for jade & pug (based on express).
+URL mapping for jade & pug. Because we can't create dynamic routers like this: [More Detail](http://stackoverflow.com/questions/25623041/how-to-configure-dynamic-routes-with-express-js)
 
-# Usage
 ```js
-require('jadewalker')(router , dir);
+entries.map(entry => {
+  router.get(entry.url, req => res.render(entry.view));
+})
+```
+
+# Install & Usage
+* `npm install jadewalker` to install jadewalker.
+* Set jadewalker in `jade` OR `pug` file.
+  ```jade
+  //- jadewalker=/url
+  doctype html
+  html
+    title jadewalker
+  body
+    p Hello jadewalker!
+  ```
+* API
+  * `router` Express router OR Koa router.
+  * `dir` View directory.
+  * `type`
+    * `express` Create routers for Express application.
+    * `koa` Create routers for Koa application.
+    * `koa2` Create routers for Koa@2 application.
+
+# Koa2
+```js
+const Koa = require('koa');
+const Router = require('koa-router');
+const views = require('koa-views');
+const jadewalker = require('../index.js');
+
+const app = new Koa();
+const router = new Router();
+
+app.use(views(`${__dirname}/views`));
+
+jadewalker({
+  router,
+  dir: `${__dirname}/views`,
+  type: 'koa2'
+});
+
+app.use(router.routes());
+app.listen(3000);
 ```
 
 # Express
 ```js
-var express = require('express')
-var app = express();
-require('jadewalker')(app, path.join(__dirname, 'views'));
-```
+const express = require('express')
+const jadewalker = require('../index.js');
 
-# Koa
-```js
-va app = require('koa')()
-var router = require('koa-router')();
-router = require('jadewalker')(router, path.join(__dirname, 'views'));
-app.use(router.routes());
-```
+const app = express();
 
-# Disable Log
-Set `process.env.JADEWALKER = false` will disable log.
-
-# Demo
-* app.js
-```js
-var express = require('express')
-  , app     = express()
-  , path    = require('path');
-
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', `${__dirname}/views`);
 app.set('view engine', 'jade');
 
-require('jadewalker')(app , path.join(__dirname, 'views'));
+jadewalker({
+  router: app,
+  dir: `${__dirname}/views`,
+  type: 'express'
+});
 
-app.listen(3000)
+app.listen(3000);
 ```
-* a.jade
-```jade
-//- jadewalker=/a
-doctype html
-html
-  title a.jade
-body
-  p a.jade
-```
-* b.jade
-```jade
-//- jadewalker=/b,/b/:id
-doctype html
-html
-  title b.jade
-body
-  p b.jade
-  p params: #{params.id}
-```
+
+# Debug
+Set `NODE_DEBUG=jadewalker` to show debug log.
