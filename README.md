@@ -11,12 +11,12 @@ entries.map(entry => {
 * `npm install jadewalker` to install jadewalker.
 * Set jadewalker in `jade` OR `pug` file.
   ```jade
-  //- jadewalker=/url
+  //- jadewalker=/hello/:name
   doctype html
   html
     title jadewalker
   body
-    p Hello jadewalker!
+    p Hello #{params.name || "jadewalker"}!
   ```
 * API
   * `router` Express router OR Koa router.
